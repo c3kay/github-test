@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+
+jobs:
+  release:
+    needs:
+      - test
+      - lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release {{ github.ref_name }}
+        run: echo "Releasing..."
+
+      # workaround for missing release event trigger
+      - name: Deploy
+        uses: ./.github/workflows/deploy.yaml
